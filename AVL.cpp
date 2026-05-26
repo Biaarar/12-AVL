@@ -1,4 +1,4 @@
-﻿#include <cstdlib>
+#include <cstdlib>
 #include <iostream>
 using namespace std;
 
@@ -162,14 +162,17 @@ NO* girarDireita(NO* y) {
    */  
 
    // Passo 1: Armazene o filho esquerdo de 'y' em uma variável temporária 'x'.  
+    NO* x = y->esq;
    // Passo 2: Transfira a subárvore direita de 'x' para a subárvore esquerda de 'y'.  
+    y->esq = x->dir;
    // Passo 3: Atualize 'x' para ser o novo nó raiz da subárvore.  
+    x->dir = y;
    // Passo 4: Recalcule as alturas dos nós afetados.  
-   // Passo 5: Retorne o novo nó raiz ('x').  
-
-	// provisoriamente retorna o ponteiro passado como parâmetro
-	return y; 
-}  
+   y->altura = 1 + maior(alturaNo(y->esq), alturaNo(y->dir));
+   x->altura = 1 + maior(alturaNo(x->esq), alturaNo(x->dir));
+   // Passo 5: Retorne o novo nó raiz ('x').
+	return y;
+}
 
 NO* girarEsquerda(NO* x) {  
    /* Rotação simples à esquerda  
@@ -181,14 +184,20 @@ NO* girarEsquerda(NO* x) {
    */  
 
    // Passo 1: Armazene o filho direito de 'x' em uma variável temporária 'y'.  
-   // Passo 2: Transfira a subárvore esquerda de 'y' para a subárvore direita de 'x'.  
-   // Passo 3: Atualize 'y' para ser o novo nó raiz da subárvore.  
-   // Passo 4: Recalcule as alturas dos nós afetados.  
-   // Passo 5: Retorne o novo nó raiz ('y').  
+    NO* y = x->dir;
+    // Passo 2: Transfira a subárvore esquerda de 'y' para a subárvore direita de 'x'.  
+    x->esq = y->dir;
+    // Passo 3: Atualize 'y' para ser o novo nó raiz da subárvore.  
+    y->esq = x;
+    // Passo 4: Recalcule as alturas dos nós afetados.  
+    x->altura = maior(alturaNo(x->esq), alturaNo(x->dir)) + 1;
+    y->altura = maior(alturaNo(y->esq), alturaNo(y->dir)) + 1;
+    // Passo 5: Retorne o novo nó raiz ('y').  
+    //lalalla
 
 
-    // provisoriamente retorna o ponteiro passado como parâmetro
-    return x; 
+     // provisoriamente retorna o ponteiro passado como parâmetro
+    return x;
 }
 
 NO* insereArvore(NO* no, int valor) {
